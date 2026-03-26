@@ -491,75 +491,61 @@
     </div>
   </div>
 
-  <script>
-    // Store the original button HTML
-    const originalButtonHTML = `
-      <i class="fas fa-play-circle"></i>
-      <span>सुरू करा</span>
-    `;
+ <script>
+  const originalButtonHTML = `
+    <i class="fas fa-play-circle"></i>
+    <span>सुरू करा</span>
+  `;
 
-    // Initialize button state when page loads
-    function initializeButton() {
-      const startButton = document.getElementById('startButton');
-      startButton.innerHTML = originalButtonHTML;
-      startButton.disabled = false;
-      startButton.style.transform = 'translateY(0) scale(1)';
-      startButton.style.boxShadow = 
-        '0 10px 20px rgba(230, 126, 34, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.1)';
+  function initializeButton() {
+    const startButton = document.getElementById('startButton');
+    startButton.innerHTML = originalButtonHTML;
+    startButton.disabled = false;
+    startButton.style.transform = 'translateY(0) scale(1)';
+    startButton.style.boxShadow =
+      '0 10px 20px rgba(230, 126, 34, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.1)';
+  }
+
+  document.getElementById('startButton').addEventListener('click', function () {
+    const button = this;
+
+    button.style.transform = 'scale(0.95)';
+    button.style.boxShadow = '0 5px 15px rgba(230, 126, 34, 0.2)';
+
+    button.innerHTML =
+      '<i class="fas fa-spinner fa-spin"></i><span>लोड होत आहे...</span>';
+    button.disabled = true;
+
+    setTimeout(() => {
+      // 👉 MAIN PAGE redirect
+      window.location.href = 'main.html';
+    }, 800);
+  });
+
+  const startBtn = document.getElementById('startButton');
+
+  startBtn.addEventListener('mouseenter', function () {
+    if (!this.disabled) {
+      this.style.transform = 'translateY(-8px) scale(1.05)';
     }
+  });
 
-    // Start Button Functionality
-    document.getElementById('startButton').addEventListener('click', function() {
-      const button = this;
-      
-      // Add click effect
-      button.style.transform = 'scale(0.95)';
-      button.style.boxShadow = '0 5px 15px rgba(230, 126, 34, 0.2)';
-      
-      // Show loading state
-      button.innerHTML = '<i class="fas fa-spinner fa-spin"></i><span>लोड होत आहे...</span>';
-      button.disabled = true;
-      
-      // Prevent multiple clicks
-      button.removeEventListener('click', arguments.callee);
-      
-      // Simulate loading delay for better UX
-      setTimeout(() => {
-        // Redirect to index.html
-        window.location.href = 'index.html';
-      }, 800);
-    });
-    
-    // Add hover effects
-    const startBtn = document.getElementById('startButton');
-    startBtn.addEventListener('mouseenter', function() {
-      if (!this.disabled) {
-        this.style.transform = 'translateY(-8px) scale(1.05)';
-      }
-    });
-    
-    startBtn.addEventListener('mouseleave', function() {
-      if (!this.disabled) {
-        this.style.transform = 'translateY(0) scale(1)';
-      }
-    });
-    
-    // Check for browser navigation (back/forward buttons)
-    window.addEventListener('pageshow', function(event) {
-      // If page is loaded from cache (like when using back button)
-      if (event.persisted) {
-        initializeButton();
-      }
-    });
-    
-    // Initialize button on page load
-    document.addEventListener('DOMContentLoaded', initializeButton);
-    
-    // Also initialize when page is fully loaded
-    window.addEventListener('load', initializeButton);
-    
-    // Optional: Reset button if user stays on page for a while
-    setTimeout(initializeButton, 5000);
-  </script>
+  startBtn.addEventListener('mouseleave', function () {
+    if (!this.disabled) {
+      this.style.transform = 'translateY(0) scale(1)';
+    }
+  });
+
+  window.addEventListener('pageshow', function (event) {
+    if (event.persisted) {
+      initializeButton();
+    }
+  });
+
+  document.addEventListener('DOMContentLoaded', initializeButton);
+  window.addEventListener('load', initializeButton);
+
+  setTimeout(initializeButton, 5000);
+</script>
 </body>
 </html>
